@@ -1,0 +1,81 @@
+<div class="layout">
+  <div>
+    <h1>Doctors</h1>
+
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Doctor</th>
+        <th>Appointment Count</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let doctor of doctors">
+        <td>{{ doctor.id }}</td>
+        <td>{{ doctor.name }}</td>
+        <td>{{ doctor.appointments_count }}</td>
+        <td><button (click)="selectDoctor(doctor.id)" mat-button>Show Appointments</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h1>Appointments</h1>
+    <em *ngIf="!doctor">Select a doctor to list appointments</em>
+    <mat-spinner *ngIf="doctor && !appointmentsRetrieved"></mat-spinner>
+
+    <table *ngIf="doctor && appointmentsRetrieved">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Date</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let appointment of appointments">
+          <tr>
+            <td>{{ appointment.name }}</td>
+            <td>{{ appointment.start_time | date: 'yyyy-MM-dd' : 'UTC' }}</td>
+            <td>{{ appointment.start_time | date: 'H:mm:ss' : 'UTC' }}</td>
+            <td>{{ appointment.end_time | date: 'H:mm:ss' : 'UTC' }}</td>
+            <td
+              [className]="appointment.conflicts.length ? 'conflicting' : 'good'"
+              class="conflicting align-center"
+              [attr.rowspan]="(appointment.conflicts.length ? 2 : 1) + appointment.conflicts.length"
+            >
+              {{ appointment.conflicts.length ? 'Conflicting' : 'Good' }}
+            </td>
+          </tr>
+
+          <tr *ngIf="appointment.conflicts.length">
+            <td colspan="4"><b>In Conflict with the following appointments:</b></td>
+          </tr>
+
+          <tr class="conflicting" *ngFor="let conflict of appointment.conflicts">
+            <td>{{ conflict.name }}</td>
+            <td>{{ conflict.start_time | date: 'yyyy-MM-dd' : 'UTC' }}</td>
+            <td>{{ conflict.start_time | date: 'H:mm:ss' : 'UTC' }}</td>
+            <td>{{ conflict.end_time | date: 'H:mm:ss' : 'UTC' }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+    <mat-card class="readme">
+      <mat-card-title>
+        ReadMe
+      </mat-card-title>
+
+      <mat-card-content>
+        This pages shows <b>all</b> appointments for the <b>selected doctor</b>.<br />
+        In the doctor page, conflicting appointments are reported if <b>this doctor has 2 or more overlapping appointments</b>.
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
