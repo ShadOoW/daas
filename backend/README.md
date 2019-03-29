@@ -3,15 +3,18 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Requirement
 PHP7
+
 composer
 
 ## Demo
 Run `composer install --dev` in this folder.
-Run `php -S localhost:8080 -t public`. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+Run `php -S localhost:8080 -t public`.
 
 ## JWT Token
 A `GET` token param is needed to access api routes
 The token can be retrieved from by:
+
 POST `http://localhost:8080/auth/login`
 {"email":"admin@daas.com", "password", "12345"}
 
