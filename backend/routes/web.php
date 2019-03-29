@@ -15,18 +15,20 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/appointment/list' , 'AppointmentController@list');
-$router->post('/appointment/create' , 'AppointmentController@create');
-$router->get('/appointment/patient/{id}' , 'AppointmentController@listByPatient');
-$router->get('/appointment/doctor/{id}' , 'AppointmentController@listByDoctor');
+$router->post('auth/login', ['uses' => 'AuthController@authenticate']);
 
-$router->get('/patient/list' , 'PatientController@list');
-$router->get('/patient/{id}' , 'PatientController@get');
+$router->group(
+    ['middleware' => 'jwt.auth'],
+    function() use ($router) {
+        $router->get('/appointment/list' , 'AppointmentController@list');
+        $router->post('/appointment/create' , 'AppointmentController@create');
+        $router->get('/appointment/patient/{id}' , 'AppointmentController@listByPatient');
+        $router->get('/appointment/doctor/{id}' , 'AppointmentController@listByDoctor');
 
-$router->get('/doctor/list' , 'DoctorController@list');
-$router->get('/doctor/{id}' , 'DoctorController@get');
+        $router->get('/patient/list' , 'PatientController@list');
+        $router->get('/patient/{id}' , 'PatientController@get');
 
-$router->get('test', function () {
-    return 'Hello World';
-});
-
+        $router->get('/doctor/list' , 'DoctorController@list');
+        $router->get('/doctor/{id}' , 'DoctorController@get');
+    }
+);
