@@ -1,0 +1,28 @@
+matrix:
+  include:
+    - language: php
+      php:
+        - 7.3
+      before_script:
+        - cd backend
+      install:
+        - composer install --dev
+      script:
+        - composer test
+
+  include:
+    - language: node_js
+      branches:
+        only:
+        - master
+      before_script:
+        - cd frontend
+      install:
+        - npm i
+      script:
+        - npm run lint
+        - npm test
+
+notifications:
+  email:
+    - shadoow.ma@gmail.com
