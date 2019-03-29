@@ -1,32 +1,26 @@
 import { Component } from '@angular/core';
-import {MatToolbarModule} from '@angular/material/toolbar';
 import { Router } from '@angular/router';
+
+import { AuthenticationService } from './service/authentication.service';
+import { User } from './model';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'DAAS';
-  navLinks: any[];
-  activeLinkIndex = -1;
-  constructor(private router: Router) {
-    this.navLinks = [
-      {
-        label: 'Doctors',
-        link: './doctors',
-        index: 0
-      }, {
-        label: 'Patients',
-        link: './patients',
-        index: 1
-      }
-    ];
+  currentUser: User;
+
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-  ngOnInit(): void {
-    this.router.events.subscribe((res) => {
-      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
-    });
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

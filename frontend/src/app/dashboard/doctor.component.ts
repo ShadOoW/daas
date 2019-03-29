@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 // Services
-import { ApiService } from './../service/api.service';
+import { ApiService } from '../service/api.service';
 
 // Models
-import { Appointment, Person } from './../model'
+import { Appointment, Person } from '../model/index'
 
 @Component({
   selector: 'app-doctor',

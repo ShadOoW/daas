@@ -10,6 +10,7 @@ use App\Utils\TimeUtil;
 class AppointmentController extends Controller
 {
     private $token;
+    private $baseUrl;
 
     /**
      * List all existing Appointment
@@ -44,6 +45,7 @@ class AppointmentController extends Controller
     public function listByPatient(Request $request, $patient)
     {
         $this->token = $request->get('token');
+        $this->baseUrl = $request->getBaseUrl();
         $appointments = Appointment::where('patient', $patient)->get();
 
         foreach ($appointments as $appointment) {
@@ -60,21 +62,22 @@ class AppointmentController extends Controller
     /**
      * List Conflicting Appointments by Doctor ID
      *
-     * @param string $token
+     * @param Request $request
      * @param number $doctor
      * @return \Illuminate\Http\JsonResponse
      */
-    public function listByDoctor($token, $doctor)
+    public function listByDoctor(Request $request, $doctor)
     {
+        $this->token = $request->get('token');
+        $this->baseUrl = $request->getBaseUrl();
         $appointments = Appointment::where('doctor', $doctor)->get();
 
         foreach ($appointments as $appointment) {
-            $appointment['name'] = $this->enrichPatientName($appointment->patient, $token);
+            $appointment['name'] = $this->enrichPatientName($appointment->patient);
             $appointment['conflicts'] = $this->detectConflict(
                 $appointment,
                 $appointments,
-                'patient',
-                $token
+                'patient'
             );
         }
         return response()->json($appointments);
@@ -85,7 +88,7 @@ class AppointmentController extends Controller
      * @return string
      */
     public function enrichDoctorName($id) {
-        $request = Request::create('/doctor/' . $id, 'GET', ['token' => $this->token]);
+        $request = Request::create($this->baseUrl . '/doctor/' . $id, 'GET', ['token' => $this->token]);
         return json_decode(app()->dispatch($request)->content())->name;
     }
 
@@ -94,7 +97,7 @@ class AppointmentController extends Controller
      * @return string
      */
     public function enrichPatientName($id) {
-        $request = Request::create('/patient/' . $id, 'GET', ['token' => $this->token]);
+        $request = Request::create($this->baseUrl . '/patient/' . $id, 'GET', ['token' => $this->token]);
         return json_decode(app()->dispatch($request)->content())->name;
     }
 

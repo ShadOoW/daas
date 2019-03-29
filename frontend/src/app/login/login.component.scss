@@ -1,0 +1,28 @@
+.login-main {
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  padding-top: 50px
+}
+
+form {
+  list-style-type: none;
+  padding: 0;
+  border-radius: 3px;
+
+  .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: .5em;
+
+    > label {
+      padding: .5em 1em .5em 0;
+      flex: 1;
+    }
+  }
+
+  .invalid-feedback, .error {
+    color: red;
+  }
+}

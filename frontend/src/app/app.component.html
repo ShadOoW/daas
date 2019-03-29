@@ -1,15 +1,6 @@
 <mat-toolbar>
   <span>Doctor as a Service</span>
+  <a class="logout" *ngIf="currentUser" class="nav-item nav-link" (click)="logout()">Logout</a>
 </mat-toolbar>
-
-<nav mat-tab-nav-bar>
-  <a mat-tab-link
-     *ngFor="let link of navLinks"
-     [routerLink]="link.link"
-     routerLinkActive #rla="routerLinkActive"
-     [active]="rla.isActive">
-    {{ link.label }}
-  </a>
-</nav>
 
 <router-outlet></router-outlet>
