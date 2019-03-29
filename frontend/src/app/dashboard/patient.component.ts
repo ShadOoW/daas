@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../service/api.service';
 
 // Models
-import { Appointment, Person } from '../model/index'
+import { Appointment, Person } from '../model/index';
 
 @Component({
   selector: 'app-patient',
@@ -15,7 +15,7 @@ export class PatientComponent {
   public patients: Array<Person> = [];
   public patient: Person;
   public appointments: Array<Appointment>;
-  public appointmentsRetrieved: boolean = false;
+  public appointmentsRetrieved = false;
 
   constructor(private apiService: ApiService) {
     apiService.listPatients();

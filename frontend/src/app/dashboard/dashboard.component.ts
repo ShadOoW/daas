@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   // styleUrls: ['./app.component.scss']
 })
-export class DashboardComponent implements OnInit{
+
+export class DashboardComponent implements OnInit {
   navLinks: any[];
   activeLinkIndex = -1;
 

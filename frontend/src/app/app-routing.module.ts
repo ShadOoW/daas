@@ -6,7 +6,7 @@ import { PatientComponent } from './dashboard/patient.component';
 import { DoctorComponent } from './dashboard/doctor.component';
 import { LoginComponent } from './login/login.component';
 
-import { AuthGuard } from './guard/auth.guard'
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -22,8 +22,8 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: "doctors", component: DoctorComponent, canActivate: [AuthGuard] },
-      { path: "patients", component: PatientComponent, canActivate: [AuthGuard] }
+      { path: 'doctors', component: DoctorComponent, canActivate: [AuthGuard] },
+      { path: 'patients', component: PatientComponent, canActivate: [AuthGuard] }
     ]
   },
   { path: '**', redirectTo: '' },
